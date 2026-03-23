@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="{{ Vite::asset('resources/images/favicon.ico') }}">
     {{-- 各ページごとにタイトルを差し込むもし指定されなければ「sgwのアプリ」がデフォルトになる --}}
     <title>@yield('title', 'sgwのアプリ')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
