@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->id(); // 主キー（自動増分ID）
+            $table->string('name'); // ユーザー名（表示用）
+            $table->string('email')->unique(); // メール（ログイン用・重複禁止）
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            // メール認証済み日時（未認証ならnull）
+
+            $table->string('password'); // パスワード（ハッシュ保存）
+            $table->rememberToken(); // 「ログイン状態を保持する」ためのトークン
+            $table->timestamps(); // 作成日時・更新日時
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

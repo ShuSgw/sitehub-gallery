@@ -3,6 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="{{ Vite::asset('resources/images/favicon.ico') }}">
     {{-- 各ページごとにタイトルを差し込むもし指定されなければ「sgwのアプリ」がデフォルトになる --}}
     <title>@yield('title', 'sgwのアプリ')</title>
@@ -13,9 +16,14 @@
 
     <header class="bg-black py-5">
         <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-lg font-semibold text-white">
-                SGWのサイト置き場
-            </h1>
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                <h1 class="text-lg font-semibold text-white">
+                    <a href="{{ route('home') }}" class="hover:underline">
+                        サイト置き場
+                    </a>
+                </h1>
+                @include('layouts.nav')
+            </div>
         </div>
     </header>
 
