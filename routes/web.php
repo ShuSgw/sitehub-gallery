@@ -13,18 +13,21 @@ use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検�
 Route::get('/', function () {
     return view('home');
 })->name("home");
+
 // ログイン後
 Route::get('/dashboard', function () {
     return view('user.dashboard');
-})->name("dashboard");
+})->middleware('auth')->name("dashboard");
+
 // 登録ページ
 Route::get('/register', function () {
     return view('register');
-});
+})->middleware('guest');
+
 // ログイン
 Route::get('/login', function () {
     return view('login');
-});
+})->middleware('guest');;
 
 
 // ユーザー登録用ポスト
