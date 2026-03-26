@@ -13,12 +13,12 @@
 {{-- contentセクション（複数行なので endsection を使う） --}}
 @section('content')
     {{-- ここが実際にページごとに変わる部分 --}}
-    <p class="text-center">ユーザー登録ページです</p>
-    <form method="POST" action="{{ route('register') }}" class="{{ $formClass }}">
+    <p class="text-center">アドミン専用登録ページです</p>
+    <form method="POST" action="{{ route('admin.register') }}" class="{{ $formClass }}">
         @csrf
         <input type="text" name="name" class="{{ $inputClass }}" placeholder="name">
         <input type="email" name="email" class="{{ $inputClass }}" placeholder="email">
         <input type="password" name="password" class="{{ $inputClass }}" placeholder="password">
-        <button class="w-full bg-green-500 text-white py-2 rounded">登録</button>
+        <button class="w-full bg-red-500 text-white py-2 rounded">登録</button>
     </form>
 @endsection
