@@ -28,7 +28,7 @@ Route::get('/register', function () {
 // ログイン
 Route::get('/login', function () {
     return view('login');
-})->middleware('guest');;
+})->middleware('guest');
 
 
 // ユーザー登録用ポスト
@@ -67,7 +67,7 @@ Route::post('logout', function () {
 Route::get('/admin/dashboard', function () {
     $users = User::all();
     return view('admin.dashboard', compact("users"));
-})->name("admin.dashboard");
+})->name("admin.dashboard")->middleware('auth:admin');
 
 
 // 登録ページ

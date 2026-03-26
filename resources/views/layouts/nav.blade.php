@@ -8,15 +8,15 @@
 
 @endphp
 
-<nav class="hidden peer-checked:block lg:block fixed inset-y-0 right-0 bg-black w-45 text-white z-40">
+<nav class="hidden my-15 peer-checked:block lg:block lg:my-1 fixed inset-y-0 right-0 bg-black w-45 text-white z-40">
     @include('components.badge')
     <!-- メニュー -->
     <ul class="{{ $listBase }}">
-        <li>
+        {{-- <li>
             <a href="{{ route('admin.register') }}" class="{{ $adminItem }}">
                 アドミン登録
             </a>
-        </li>
+        </li> --}}
         <li>
             <a href="{{ route('admin.login') }}" class="{{ $adminItem }}">
                 アドミンログイン
@@ -58,36 +58,3 @@
         </li>
     </ul>
 </nav>
-
-{{-- <nav class="flex gap-6 text-sm items-center overflow-x-auto">
-    @if (auth()->guard('admin')->check())
-        <span class="{{ $badgeBase }} bg-purple-100 text-purple-800">Adminログイン中</span>
-    @elseif (auth()->check())
-        <span class="{{ $badgeBase }} bg-blue-100 text-blue-800">Userログイン中</span>
-    @else
-        <span class="{{ $badgeBase }} bg-red-100 text-red-800">ログアウト中</span>
-    @endif
-    <a href="{{ route('user.dashboard') }}" class="{{ $navItemStyle }}">
-        <span>User管理画面</span>
-    </a>
-    <a href="{{ route('admin.dashboard') }}" class="{{ $navItemStyle }}">
-        <span>Admin管理画面</span>
-    </a>
-    <a href="{{ route('register') }}" class="{{ $navItemStyle }}">
-        <span>アカウント登録</span>
-    </a>
-    <a href="{{ route('admin.register') }}" class="{{ $navItemStyle }}">
-        <span>アドミン登録</span>
-    </a>
-    <a href="{{ route('login') }}" class="{{ $navItemStyle }}">
-        <span>ユーザーログイン</span>
-    </a>
-    <a href="{{ route('admin.login') }}" class="{{ $navItemStyle }}">
-        <span>アドミンログイン</span>
-    </a>
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button class="{{ $navItemStyle }}">ログアウト</button>
-    </form>
-
-</nav> --}}
