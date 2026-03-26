@@ -50,7 +50,7 @@ Route::post('/login', function (Request $request) {
 
     if (Auth::attempt($credentials)) {
         // usersテーブルで認証→成功ならログイン状態にする
-        return redirect('/dashboard'); // 成功時の遷移
+        return redirect('user/dashboard'); // 成功時の遷移
     }
 
     return back(); // 失敗したら元のページに戻る
@@ -106,3 +106,9 @@ Route::post('/admin/login', function (Request $request) {
 
     return back(); // 失敗したら元のページに戻る
 })->name('admin.login');
+
+
+Route::post('/admin/logout', function () {
+    Auth::guard('admin')->logout();
+    return redirect()->route('admin.login');
+})->name("admin.logout");
