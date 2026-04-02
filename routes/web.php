@@ -2,12 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Http\Request; // リクエスト（フォーム入力）を扱う
-
-use Illuminate\Support\Facades\Auth; // 認証（ログイン処理）を扱う
-
-use App\Models\User; //Userモデルを使う
-use App\Models\Admin; //Adminモデルを使う
+use App\http\Controllers\UserDashboardController;
+use App\http\Controllers\UserAuthController;
+use App\http\Controllers\AdminAuthController;
+use App\http\Controllers\AdminDashboardController;
 
 use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
 
@@ -15,100 +13,51 @@ Route::get('/', function () {
     return view('home');
 })->name("home");
 
-// ログイン後
-Route::get('/user/dashboard', function () {
-    return view('user.dashboard');
-})->middleware('auth')->name("user.dashboard");
+Route::controller(UserAuthController::class)->group(function () {
+    Route::middleware('guest')->group(function () {
+        // 登録ページ
+        Route::get('/register', 'showRegister');
+        // 登録保存
+        Route::post('/register', 'storeRegister')->name('register');
+        // ログイン
+        Route::get('/login', 'showLogin');
+        // ログインポスト
+        Route::post('/login', 'storeLogin')->name('login');
+    });
 
-// 登録ページ
-Route::get('/register', function () {
-    return view('register');
-})->middleware('guest');
+    // ログアウト
+    Route::post('/logout', 'logout')->name('logout');
+});
 
-// ログイン
-Route::get('/login', function () {
-    return view('login');
-})->middleware('guest');
+// ユーザー管理画面
+Route::controller(UserDashboardController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/user/dashboard', 'index')->name("user.dashboard");
+    });
+});
 
+Route::controller(AdminAuthController::class)->group(function () {
+    // アドミンログインページ
+    Route::get('admin/login', 'showLogin')->name('admin.login');
+    // アドミンログインポスト
+    Route::post('admin/login', 'storeLogin')->name('admin.login');
+    // アドミンログアウト
+    Route::post('admin/logout', 'logout')->name('admin.logout');
 
-// ユーザー登録用ポスト
-Route::post('/register', function (Request $request) {
-    User::create([
-        'name' => $request->input('name'), // 名前取得
-        'email' => $request->input('email'), // メール取得
-        'password' => Hash::make($request->input('password')),
-        // パスワードはハッシュ化
-    ]);
-    return redirect('/login');
-})->name('register');
+    // 登録ページ
+    // Route::get(
+    //     'admin/register',
+    //     'showRegister'
+    // )->name('admin.register');
+    // アドミン登録用ポスト
+    // Route::post(
+    //     'admin/register',
+    //     'storeRegister'
+    // )->name('admin.register');
+});
 
-// ログインポスト
-Route::post('/login', function (Request $request) {
-    // POST /login に来たリクエストを受け取り、$requestとして使える
-    $credentials = $request->only('email', 'password');
-    // 入力からemailとpasswordだけ取得
-
-    if (Auth::attempt($credentials)) {
-        // usersテーブルで認証→成功ならログイン状態にする
-        return redirect('user/dashboard'); // 成功時の遷移
-    }
-
-    return back(); // 失敗したら元のページに戻る
-})->name('login');
-
-// ログアウト用のポスト
-Route::post('logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name("logout");
-
-
-// ここからアドミン
-Route::get('/admin/dashboard', function () {
-    $users = User::all();
-    return view('admin.dashboard', compact("users"));
-})->name("admin.dashboard")->middleware('auth:admin');
-
-
-// 登録ページ
-Route::get('/admin/register', function () {
-    return view('admin.register');
-})->name("admin.register");
-
-// アドミン登録用ポスト
-Route::post('/admin/register', function (Request $request) {
-    Admin::create([
-        'name' => $request->input('name'), // 名前取得
-        'email' => $request->input('email'), // メール取得
-        'password' => Hash::make($request->input('password')),
-        // パスワードはハッシュ化
-    ]);
-    return redirect('/login');
-})->name('admin.register');
-
-
-// アドミンログイン
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name("admin.login");
-
-
-// アドミンログインポスト
-Route::post('/admin/login', function (Request $request) {
-    // POST /login に来たリクエストを受け取り、$requestとして使える
-    $credentials = $request->only('email', 'password');
-    // 入力からemailとpasswordだけ取得
-
-    if (Auth::guard('admin')->attempt($credentials)) {
-        // usersテーブルで認証→成功ならログイン状態にする
-        return redirect('admin/dashboard'); // 成功時の遷移
-    }
-
-    return back(); // 失敗したら元のページに戻る
-})->name('admin.login');
-
-
-Route::post('/admin/logout', function () {
-    Auth::guard('admin')->logout();
-    return redirect()->route('admin.login');
-})->name("admin.logout");
+Route::controller(AdminDashboardController::class)->group(function () {
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/admin/dashboard', 'index')->name("admin.dashboard");
+    });
+});
