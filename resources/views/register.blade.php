@@ -17,8 +17,17 @@
     <form method="POST" action="{{ route('register') }}" class="{{ $formClass }}">
         @csrf
         <input type="text" name="name" class="{{ $inputClass }}" placeholder="name">
+        @error('name')
+            <div class="text-red-500">{{ $message }}</div>
+        @enderror
         <input type="email" name="email" class="{{ $inputClass }}" placeholder="email">
+        @error('email')
+            <div class="text-red-500">{{ $message }}</div>
+        @enderror
         <input type="password" name="password" class="{{ $inputClass }}" placeholder="password">
+        @error('password')
+            <div class="text-red-500">{{ $message }}</div>
+        @enderror
         <button class="w-full bg-green-500 text-white py-2 rounded">登録</button>
     </form>
 @endsection
