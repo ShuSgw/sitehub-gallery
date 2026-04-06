@@ -15,6 +15,7 @@ class AdminAuthController extends Controller
     {
         return view('admin.login');
     }
+
     public function storeLogin(Request $request)
     {
         // POST /login に来たリクエストを受け取り、$requestとして使える
@@ -26,6 +27,7 @@ class AdminAuthController extends Controller
         }
         return back();
     }
+
     public function logout()
     {
         Auth::guard('admin')->logout();
@@ -36,6 +38,7 @@ class AdminAuthController extends Controller
     {
         return view('admin.register');
     }
+
     public function storeRegister(Request $request)
     {
         Admin::create([
