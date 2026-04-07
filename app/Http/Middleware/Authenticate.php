@@ -40,6 +40,6 @@ class Authenticate
 
         // それ以外（普通のユーザー用）は
         // ログインしていなければユーザーログイン画面に飛ばす
-        return redirect()->route('login');
+        return redirect()->route('user.login');
     }
 }

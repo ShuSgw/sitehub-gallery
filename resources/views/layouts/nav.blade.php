@@ -34,12 +34,12 @@
             </button>
         </form>
         <li>
-            <a href="{{ route('register') }}" class="{{ $userItem }}">
+            <a href="{{ route('register.form') }}" class="{{ $userItem }}">
                 ユーザーアカウント登録
             </a>
         </li>
         <li>
-            <a href="{{ route('login') }}" class="{{ $userItem }}">
+            <a href="{{ route('user.login') }}" class="{{ $userItem }}">
                 ユーザーログイン
             </a>
         </li>

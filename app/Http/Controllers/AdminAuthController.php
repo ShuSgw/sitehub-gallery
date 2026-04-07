@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+// use App\Models\Admin;
+// use Illuminate\Support\Facades\Hash;
 
-use App\Models\Admin; //Adminモデルを使う
-use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
+// use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
 
 
 class AdminAuthController extends Controller
@@ -16,14 +17,14 @@ class AdminAuthController extends Controller
         return view('admin.login');
     }
 
-    public function storeLogin(Request $request)
+    public function storeLogin(LoginRequest $request)
     {
         // POST /login に来たリクエストを受け取り、$requestとして使える
         $credentials = $request->only('email', 'password');
         // 入力からemailとpasswordだけ取得
         if (Auth::guard('admin')->attempt($credentials)) {
             // usersテーブルで認証→成功ならログイン状態にする
-            return redirect('admin/dashboard'); // 成功時の遷移
+            return redirect()->route('admin.dashboard'); // 成功時の遷移
         }
         return back();
     }
@@ -34,19 +35,19 @@ class AdminAuthController extends Controller
         return redirect()->route('admin.login');
     }
 
-    public function showRegister()
-    {
-        return view('admin.register');
-    }
+    // public function showRegister()
+    // {
+    //     return view('admin.register');
+    // }
 
-    public function storeRegister(Request $request)
-    {
-        Admin::create([
-            'name' => $request->input('name'), // 名前取得
-            'email' => $request->input('email'), // メール取得
-            'password' => Hash::make($request->input('password')),
-            // パスワードはハッシュ化
-        ]);
-        return redirect('/login');
-    }
+    // public function storeRegister(Request $request)
+    // {
+    //     Admin::create([
+    //         'name' => $request->input('name'), // 名前取得
+    //         'email' => $request->input('email'), // メール取得
+    //         'password' => Hash::make($request->input('password')),
+    //         // パスワードはハッシュ化
+    //     ]);
+    //     return redirect('/login');
+    // }
 }

@@ -14,7 +14,7 @@
 @section('content')
     {{-- ここが実際にページごとに変わる部分 --}}
     <p class="text-center">ユーザー登録ページです</p>
-    <form method="POST" action="{{ route('register') }}" class="{{ $formClass }}">
+    <form method="POST" action="{{ route('register.store') }}" class="{{ $formClass }}">
         @csrf
         <input type="text" name="name" class="{{ $inputClass }}" placeholder="name">
         @error('name')

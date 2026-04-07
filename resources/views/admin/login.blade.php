@@ -12,7 +12,7 @@
         $inputClass = 'w-full border rounded px-3 py-2';
     @endphp
 
-    <form method="POST" action="{{ route('admin.login') }}" class="max-w-sm mx-auto mt-10 space-y-4">
+    <form method="POST" action="{{ route('admin.store') }}" class="max-w-sm mx-auto mt-10 space-y-4">
         @csrf
 
         <input type="email" name="email" class="{{ $inputClass }}" placeholder="email">

@@ -15,7 +15,7 @@ class UserAuthController extends Controller
 {
     public function showRegister()
     {
-        return view('register');
+        return view('user.register');
     }
 
     public function storeRegister(RegisterRequest $request)
@@ -26,26 +26,22 @@ class UserAuthController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
 
-        return redirect('/login');
+        return redirect()->route('user.login');
     }
 
     public function showLogin()
     {
-        return view('login');
+        return view('user.login');
     }
 
     public function storeLogin(LoginRequest $request)
     {
-        // $request->validate([
-        //     'email' => ['required', 'email'],
-        //     'password' => ['required'],
-        // ]);
         // POST /login に来たリクエストを受け取り、$requestとして使える
         $credentials = $request->only('email', 'password');
         // 入力からemailとpasswordだけ取得
         if (Auth::attempt($credentials)) {
             // usersテーブルで認証→成功ならログイン状態にする
-            return redirect('user/dashboard'); // 成功時の遷移
+            return redirect()->route('user.dashboard'); // 成功時の遷移
         }
         return back(); // 失敗したら元のページに戻る
     }
@@ -54,6 +50,6 @@ class UserAuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect()->route('user.login');
     }
 }
