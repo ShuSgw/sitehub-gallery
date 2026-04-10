@@ -10,8 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class Admin extends Authenticatable
 // Adminを「認証可能なユーザー」として扱う
 {
-    // use Notifiable;
-
+    use Notifiable;
     protected $fillable = [
         'name',
         'email',
