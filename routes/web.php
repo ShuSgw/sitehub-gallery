@@ -20,11 +20,15 @@ Route::controller(UserAuthController::class)->group(function () {
         // 登録ページ
         Route::get('/register', 'showRegister')->name('register.form');
         // 登録保存
-        Route::post('/register', 'storeRegister')->name('register.store');
+        Route::post('/register', 'storeRegister')
+            ->middleware('throttle:3,1')
+            ->name('register.store');
         // ログイン
         Route::get('/login', 'showLogin')->name('user.login');
         // ログインポスト
-        Route::post('/login', 'storeLogin')->name('login.store');
+        Route::post('/login', 'storeLogin')
+            ->middleware('throttle:3,1')
+            ->name('login.store');
     });
 
     // ログアウト
@@ -51,7 +55,9 @@ Route::controller(AdminAuthController::class)->group(function () {
     // アドミンログインページ
     Route::get('admin/login', 'showLogin')->name('admin.login');
     // アドミンログインポスト
-    Route::post('admin/login', 'storeLogin')->name('admin.store');
+    Route::post('admin/login', 'storeLogin')
+        ->middleware('throttle:3,1')
+        ->name('admin.store');
     // アドミンログアウト
     Route::post('admin/logout', 'logout')->name('admin.logout');
 
