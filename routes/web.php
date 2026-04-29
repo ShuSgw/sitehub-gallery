@@ -10,10 +10,11 @@ use App\http\Controllers\AdminDashboardController;
 
 use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
 
+use App\Services\TelegramService;
+
 Route::get('/', function () {
     return view('home');
 })->name("home");
-
 
 Route::controller(UserAuthController::class)->group(function () {
     Route::middleware('guest')->group(function () {
@@ -31,7 +32,6 @@ Route::controller(UserAuthController::class)->group(function () {
             ->name('login.store');
     });
 
-    // ログアウト
     Route::post('/logout', 'logout')->name('logout');
 });
 
@@ -58,7 +58,6 @@ Route::controller(AdminAuthController::class)->group(function () {
     Route::post('admin/login', 'storeLogin')
         ->middleware('throttle:3,1')
         ->name('admin.store');
-    // アドミンログアウト
     Route::post('admin/logout', 'logout')->name('admin.logout');
 
     // 登録ページ

@@ -48,13 +48,11 @@
                 ユーザー管理画面
             </a>
         </li>
-        <li>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button class="{{ $userItem }} w-full">
-                    ユーザーログアウト
-                </button>
-            </form>
-        </li>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button class="{{ $userItem }} w-full">
+                ユーザーログアウト
+            </button>
+        </form>
     </ul>
 </nav>
