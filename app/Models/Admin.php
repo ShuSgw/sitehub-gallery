@@ -21,4 +21,12 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ]; // JSON化や配列化したときに非表示にするカラム（APIレスポンス漏洩防止）
+
+    // 属性の型変換（キャスト）
+    // 'password' => 'hashed' を指定すると、パスワードを保存するときに
+    // 自動的にハッシュ化される（平文保存を防止）
+    // 例: Admin::create(['password' => 'plain']) → DB には自動でハッシュ化された値が入る
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }

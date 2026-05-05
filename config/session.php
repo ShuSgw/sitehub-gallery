@@ -129,7 +129,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug((string) env('APP_NAME', 'laravel')).'-session'
+        Str::slug((string) env('APP_NAME', 'laravel')) . '-session'
     ),
 
     /*
@@ -169,7 +169,15 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    // セッションCookie を HTTPS 通信時のみ送信するように設定
+    // true にすると、HTTP（暗号化なし）ではCookieが送られないため
+    // 通信途中でセッションIDを盗まれる（セッションハイジャック）のを防げる
+    //
+    // ・本番環境（HTTPS）: .env で SESSION_SECURE_COOKIE=true を推奨
+    // ・ローカル開発（HTTP）: .env で SESSION_SECURE_COOKIE=false にしないと
+    //   ログインCookie が保存されずログインできなくなるので注意
+    // 第2引数 true はデフォルト値（.env 未設定なら HTTPS 限定）
+    'secure' => env('SESSION_SECURE_COOKIE', true),
 
     /*
     |--------------------------------------------------------------------------
