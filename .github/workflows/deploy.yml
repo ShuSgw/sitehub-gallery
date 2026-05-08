@@ -16,18 +16,6 @@ jobs:
       - name: チェックアウト
         uses: actions/checkout@v4
 
-      # PHP環境セットアップ
-      - name: PHPセットアップ
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring,pdo,pdo_mysql,bcmath,json
-          tools: composer
-
-      # PHP依存関係インストール
-      - name: Composer依存関係インストール
-        run: composer install --no-dev --optimize-autoloader --ignore-platform-reqs
-
       # Node環境セットアップ
       - name: Node.jsセットアップ
         uses: actions/setup-node@v4
@@ -41,10 +29,6 @@ jobs:
       # フロントエンドビルド
       - name: npm ビルド
         run: npm run build
-
-      # Laravel 設定キャッシュクリア
-      - name: Laravel設定キャッシュクリア
-        run: php artisan config:clear
 
       # SSHキー設定
       - name: SSHキー設定
@@ -63,8 +47,19 @@ jobs:
           rsync -avz \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
             --exclude='node_modules' \
+            --exclude='vendor' \
             --exclude='.git' \
             --exclude='.env' \
             --exclude='storage/*' \
             ./ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/
+
+      # Hostinger上でのセットアップ
+      - name: Hostinger セットアップ
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+          cd /home/u303929511/domains/test2.shagawa.work
+          /opt/alt/php82/usr/bin/php vendor/bin/composer install --no-dev --optimize-autoloader
+          /opt/alt/php82/usr/bin/php artisan migrate --force
+          /opt/alt/php82/usr/bin/php artisan config:cache
+          EOF
