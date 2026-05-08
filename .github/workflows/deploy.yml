@@ -50,7 +50,11 @@ jobs:
             --exclude='vendor' \
             --exclude='.git' \
             --exclude='.env' \
-            --exclude='storage/*' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/data/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='storage/app/public/*' \
             ./ \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/
 
@@ -59,6 +63,9 @@ jobs:
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd /home/u303929511/domains/test2.shagawa.work
+          mkdir -p storage/framework/{views,cache/data,sessions,testing}
+          mkdir -p storage/logs storage/app/public
+          chmod -R 775 storage bootstrap/cache
           /opt/alt/php82/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader --ignore-platform-reqs
           /opt/alt/php82/usr/bin/php artisan migrate --force
           /opt/alt/php82/usr/bin/php artisan config:cache
