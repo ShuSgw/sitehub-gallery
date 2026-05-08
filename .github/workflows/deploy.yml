@@ -62,5 +62,5 @@ jobs:
         run: |
           rsync -avz \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
-            dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/
+            public/build/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/public/build/
