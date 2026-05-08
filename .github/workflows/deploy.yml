@@ -59,8 +59,7 @@ jobs:
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           cd /home/u303929511/domains/test2.shagawa.work
-          export COMPOSER_PHP_CLI=/opt/alt/php82/usr/bin/php
-          /opt/alt/php82/usr/bin/php composer install --no-dev --optimize-autoloader
+          /opt/alt/php82/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader
           /opt/alt/php82/usr/bin/php artisan migrate --force
           /opt/alt/php82/usr/bin/php artisan config:cache
           EOF
