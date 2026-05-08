@@ -42,11 +42,9 @@ jobs:
       - name: npm ビルド
         run: npm run build
 
-      # Laravel キャッシュクリア
-      - name: Laravelキャッシュクリア
-        run: |
-          php artisan config:clear
-          php artisan cache:clear
+      # Laravel 設定キャッシュクリア
+      - name: Laravel設定キャッシュクリア
+        run: php artisan config:clear
 
       # SSHキー設定
       - name: SSHキー設定
