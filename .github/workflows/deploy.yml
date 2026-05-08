@@ -1,0 +1,68 @@
+name: ビルド & Hostingerへデプロイ
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # コード取得
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      # PHP環境セットアップ
+      - name: PHPセットアップ
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring,pdo,pdo_mysql,bcmath,json
+          tools: composer
+
+      # PHP依存関係インストール
+      - name: Composer依存関係インストール
+        run: composer install --no-dev --optimize-autoloader
+
+      # Node環境セットアップ
+      - name: Node.jsセットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      # Node依存関係インストール
+      - name: npm依存関係インストール
+        run: npm ci
+
+      # フロントエンドビルド
+      - name: npm ビルド
+        run: npm run build
+
+      # Laravel キャッシュクリア
+      - name: Laravelキャッシュクリア
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+
+      # SSHキー設定
+      - name: SSHキー設定
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.HOSTINGER_ACTION_DEPLOY_KEY }}
+
+      # known_hosts登録（ポート指定あり）
+      - name: ホスト登録
+        run: |
+          ssh-keyscan -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      # デプロイ（安全版：--deleteなし）
+      - name: デプロイ実行
+        run: |
+          rsync -avz \
+            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            dist/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/
