@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\http\Controllers\UserDashboardController;
-use App\http\Controllers\UserAuthController;
-use App\http\Controllers\SiteController;
-use App\http\Controllers\AdminAuthController;
-use App\http\Controllers\AdminDashboardController;
+use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminDashboardController;
 
 use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
 
