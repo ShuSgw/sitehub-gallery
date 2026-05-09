@@ -10,7 +10,7 @@ use App\Http\Controllers\AdminDashboardController;
 
 use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
 
-use App\Services\TelegramService;
+
 
 Route::get('/', function () {
     return view('home');
