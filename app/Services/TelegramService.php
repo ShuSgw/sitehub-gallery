@@ -16,6 +16,11 @@ class TelegramService
     {
         $this->token = env('TELEGRAM_BOT_TOKEN');
         $this->chatId = env('TELEGRAM_CHAT_ID');
+
+        Log::info('TelegramService init', [
+            'token' => $this->token,
+            'chatId' => $this->chatId,
+        ]);
     }
 
     // $message の内容を Telegram に送信するメソッド

@@ -8,10 +8,6 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminDashboardController;
 
-use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
-
-
-
 Route::get('/', function () {
     return view('home');
 })->name("home");
