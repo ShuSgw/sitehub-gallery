@@ -55,3 +55,15 @@ GitHub Actions で以下を自動化予定：
 ## ホスティング
 
 本番環境：[Hostinger](https://www.hostinger.jp/) のレンタルサーバー
+
+### 本番サーバーでのコマンド実行
+
+Hostinger 上では `php` コマンドが直接使えない。artisan / composer を実行するときは
+PHP のフルパスを指定する：
+
+```bash
+/opt/alt/php82/usr/bin/php artisan migrate --force
+/opt/alt/php82/usr/bin/php artisan config:cache
+```
+
+> **Note:** `php artisan ...` だけでは動かない。必ず `/opt/alt/php82/usr/bin/php` を付ける。
