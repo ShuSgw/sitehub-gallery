@@ -14,13 +14,9 @@ class TelegramService
     // クラスが作成されるときに自動で実行される
     public function __construct()
     {
-        $this->token = env('TELEGRAM_BOT_TOKEN');
-        $this->chatId = env('TELEGRAM_CHAT_ID');
-
-        Log::info('TelegramService init', [
-            'token' => $this->token,
-            'chatId' => $this->chatId,
-        ]);
+        // config 経由で取得する（config:cache 後は env() が null を返すため）
+        $this->token = config('services.telegram.bot_token');
+        $this->chatId = config('services.telegram.chat_id');
     }
 
     // $message の内容を Telegram に送信するメソッド
