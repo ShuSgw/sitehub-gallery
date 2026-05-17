@@ -50,7 +50,7 @@ cp .env.example .env
 
 GitHub Actions で以下を自動化予定：
 
-- [ ] **Deploy自動化**：Actionで自動ビルドしてHostingerにデプロイ
+- [x] **Deploy自動化**：Actionで自動ビルドしてHostingerにデプロイ
 
 ## ホスティング
 
