@@ -7,8 +7,7 @@
     $listBase = 'divide-y divide-gray-700';
 
 @endphp
-
-<nav class="hidden my-15 peer-checked:block lg:block lg:my-1 fixed inset-y-0 right-0 bg-black w-45 text-white z-40">
+<nav class="hidden peer-checked:block lg:block lg:my-1 fixed inset-y-1 right-0 bg-black w-45 text-white z-40">
     @include('components.badge')
     <!-- メニュー -->
     <ul class="{{ $listBase }}">

@@ -27,7 +27,7 @@
                         <td class="border border-gray-300 px-4 py-2">{{ $site->name }}</td>
                         <td class="border border-gray-300 px-4 py-2">
                             <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
-                                class="text-blue-500 underline hover:no-underline">{{ $site->url }}</a>
+                                class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
                         </td>
                     </tr>
                 @empty
