@@ -8,4 +8,13 @@
 @section('content')
     {{-- ここが実際にページごとに変わる部分 --}}
     <p>シンプルに気に入ったサイトを保存して行くサイトです。</p>
+    {{-- <div x-data="{ open: false }">
+        <button @click="open = !open">
+            Toggle
+        </button>
+
+        <div x-show="open">
+            Content
+        </div>
+    </div> --}}
 @endsection

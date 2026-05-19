@@ -1,22 +1,16 @@
-<aside x-show="open" x-transition:enter="transition duration-300" x-transition:enter-start="translate-x-full"
-    x-transition:enter-end="translate-x-0" x-transition:leave="transition duration-300"
-    x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-    class="fixed right-0 top-0 z-50 h-full w-80 bg-black shadow-xl py-6">
+@php
+$itemBase = 'cursor-pointer h-12.5 flex items-center justify-center text-center
+hover:text-gray-300 text-sm transition-colors duration-200';
+$userItem = $itemBase . ' bg-blue-900 hover:bg-blue-800';
+$adminItem = $itemBase . ' bg-red-900 hover:bg-red-800';
+$defaultItem = $itemBase . ' hover:bg-gray-900';
+$listBase = 'divide-y divide-gray-700';
 
-    <div class="flex items-center justify-between px-6">
-        @include('components.badge')
-        <x-heroicon-o-x-mark class="peer-checked:block {{ $iconStyle }}" @click="open = false" />
-    </div>
-    @php
-        $itemBase =
-            'cursor-pointer h-12.5 flex items-center justify-center text-center hover:text-gray-300 text-sm transition-colors duration-200';
-        $userItem = $itemBase . ' bg-blue-900 hover:bg-blue-800';
-        $adminItem = $itemBase . ' bg-red-900 hover:bg-red-800';
-        $defaultItem = $itemBase . ' hover:bg-gray-900';
-        $listBase = 'divide-y divide-gray-700';
-
-    @endphp
-    <ul class="mt-5 w-full">
+@endphp
+<nav class="peer-checked:block lg:block lg:my-1 fixed top-0 right-0 bg-pink-200 w-45 text-white z-40">
+    @include('components.badge')
+    <!-- メニュー -->
+    <ul class="{{ $listBase }}">
         <li>
             <a href="{{ route('admin.login') }}" class="{{ $adminItem }}">
                 アドミンログイン
@@ -55,4 +49,4 @@
             </button>
         </form>
     </ul>
-</aside>
+</nav>

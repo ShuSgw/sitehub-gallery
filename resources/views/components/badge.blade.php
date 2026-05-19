@@ -1,5 +1,5 @@
 <!-- バッジ行 -->
-<li class="h-16 flex items-center justify-center border-gray-700">
+<li class="flex items-center justify-center border-gray-700">
     @if (auth()->guard('admin')->check() && auth()->check())
         <span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
             両方ログイン中

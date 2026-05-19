@@ -12,7 +12,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-slate-50 flex flex-col min-h-screen">
+<body class="bg-slate-50 flex flex-col min-h-screen" x-data="{ open: false }">
     <header class="bg-black py-5">
         <div class="max-w-4xl mx-auto px-4">
             <h1 class="text-lg font-semibold text-white">
@@ -26,20 +26,16 @@
                     $iconStyle =
                         'size-8 z-10 text-white cursor-pointer hover:text-gray-300 hover:scale-110 transition-all duration-200';
                 @endphp
+                <x-heroicon-o-bars-3 class="{{ $iconPosition }} {{ $iconStyle }}" @click="open = true"
+                    click="open = true" />
 
-                <input type="checkbox"
-                    class="peer opacity-0 w-12 h-12 z-50 cursor-pointer lg:hidden {{ $iconPosition }}" />
-
-                <x-heroicon-o-bars-3 class="peer-checked:hidden lg:hidden {{ $iconPosition }} {{ $iconStyle }}" />
-
-                <x-heroicon-o-x-mark
-                    class="peer-checked:block hidden lg:hidden {{ $iconPosition }} {{ $iconStyle }}" />
                 @include('layouts.nav')
             </div>
         </div>
     </header>
+    <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black/40 z-40" @click="open = false"></div>
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 py-12 w-full">
+    <main class="flex-1 max-w-4xl mx-auto px-4 py-12 w-full text-black">
         {{-- 各ページのメインコンテンツがここに入る --}}
         @yield('content')
     </main>

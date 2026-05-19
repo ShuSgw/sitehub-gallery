@@ -23,6 +23,8 @@
 - MySQL
 - Blade
 - Tailwind CSS
+- daisyui
+- Alpine.js
 
 ## ローカル設定
 
