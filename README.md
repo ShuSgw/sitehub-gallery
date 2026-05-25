@@ -33,9 +33,22 @@ composer install
 cp .env.example .env
 ./vendor/bin/sail up -d
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail npm install
 ```
 
 > **Note:** [Laravel Sail](https://laravel.com/docs/sail) 使用
+
+### フロントエンド（Vite）
+
+`npm` コマンドは **必ず Sail コンテナ内で実行する**：
+
+```bash
+./vendor/bin/sail npm install      # パッケージ追加・更新
+./vendor/bin/sail npm run dev      # 開発サーバー（HMR、ポート5173）
+./vendor/bin/sail npm run build    # 本番ビルド
+```
+
+> **Note:** `node_modules` はホスト(Mac)とコンテナ(Linux)で共有されている。Vite はネイティブバイナリ(rolldown)を使い1プラットフォーム分しか入らないため、ホスト側で `npm` を実行すると `Cannot find native binding` でコンテナ側が壊れる（逆も同様）。バイナリが壊れたら該当環境で `rm -rf node_modules package-lock.json && npm install` で入れ直す。
 
 ## 開発予定
 
