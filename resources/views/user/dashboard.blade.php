@@ -19,6 +19,8 @@
                 <tr class="bg-gray-100">
                     <th class="border border-gray-300 px-4 py-2 text-left">Name</th>
                     <th class="border border-gray-300 px-4 py-2 text-left">URL</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left">メモ</th>
+                    <th class="border border-gray-300 px-4 py-2 text-left"></th>
                 </tr>
             </thead>
             <tbody>
@@ -28,6 +30,10 @@
                         <td class="border border-gray-300 px-4 py-2">
                             <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
                                 class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
+                        </td>
+                        <td class="border border-gray-300 px-4 py-2"></td>
+                        <td class="border border-gray-300 px-4 py-2">
+                            <a href="{{ route('sites.edit', $site->id) }}" class="underline hover:no-underline">編集</a>
                         </td>
                     </tr>
                 @empty

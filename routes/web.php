@@ -15,13 +15,15 @@ Route::get('/', function () {
 Route::controller(UserAuthController::class)->group(function () {
     Route::middleware('guest')->group(function () {
         // 登録ページ
-        Route::get('/register', 'showRegister')->name('register.form');
+        Route::get('/register', 'showRegister')
+            ->name('register.form');
         // 登録保存
         Route::post('/register', 'storeRegister')
             ->middleware('throttle:3,1')
             ->name('register.store');
         // ログイン
-        Route::get('/login', 'showLogin')->name('user.login');
+        Route::get('/login', 'showLogin')
+            ->name('user.login');
         // ログインポスト
         Route::post('/login', 'storeLogin')
             ->middleware('throttle:3,1')
@@ -34,14 +36,20 @@ Route::controller(UserAuthController::class)->group(function () {
 // ユーザー管理画面
 Route::controller(UserDashboardController::class)->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('/user/dashboard', 'index')->name("user.dashboard");
+        Route::get('/user/dashboard', 'index')
+            ->name("user.dashboard");
     });
 });
 
 // サイト系
 Route::controller(SiteController::class)->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::post('/sites', 'store')->name('sites.store');
+        Route::post('/sites', 'store')
+            ->name('sites.store');
+        Route::get('/sites/{site}/edit', 'edit')
+            ->name('sites.edit');
+        Route::patch('/sites/{id}/', 'update')
+            ->name('sites.update');
     });
 });
 
