@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="{{ Vite::asset('resources/images/favicon.ico') }}">
@@ -13,16 +12,15 @@
 </head>
 
 <body class="bg-slate-50 flex flex-col min-h-screen" x-data="{ open: false }">
-    <header class="bg-black py-5">
-        <div class="max-w-4xl mx-auto px-4">
+    <header class="bg-black py-5 fixed w-full">
+        <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
             <h1 class="text-lg font-semibold text-white">
-                <a href="{{ route('home') }}" class="hover:underline whitespace-nowrap mr-">
-                    サイト置き場
-                </a>
+                <a href="{{ route('home') }}" class="hover:underline whitespace-nowrap mr-">サイト置き場</a>
             </h1>
             <div class="relative">
                 @php
-                    $iconPosition = 'fixed top-4.5 right-4 md:right-10 lg:right-69';
+                    // fixed top-4.5 right-4
+                    $iconPosition = 'md:right-10 lg:right-69';
                     $iconStyle =
                         'size-8 z-10 text-white cursor-pointer hover:text-gray-300 hover:scale-110 transition-all duration-200';
                 @endphp
