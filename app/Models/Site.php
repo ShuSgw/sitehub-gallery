@@ -16,7 +16,8 @@ class Site extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'url'
+        'url',
+        'memo'
     ];
 
     // 3. Userモデルとのリレーション（親Userを取得するため）

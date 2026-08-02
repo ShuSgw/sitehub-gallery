@@ -39,6 +39,7 @@ class SiteController extends Controller
         $site->update([
             'name' => $request->name,
             'url'  => $request->url,
+            'memo'  => $request->memo,
         ]);
 
         return redirect()->route('user.dashboard');
