@@ -12,28 +12,26 @@
 </head>
 
 <body class="bg-slate-50 flex flex-col min-h-screen" x-data="{ open: false }">
+    @php
+        $iconPosition = 'md:right-10 lg:right-69';
+        $iconStyle =
+            'size-8 z-10 text-white cursor-pointer hover:text-gray-300 hover:scale-110 transition-all duration-200';
+    @endphp
+    @include('layouts.nav')
     <header class="bg-black py-5 fixed w-full">
         <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
             <h1 class="text-lg font-semibold text-white">
                 <a href="{{ route('home') }}" class="hover:underline whitespace-nowrap mr-">サイト置き場</a>
             </h1>
             <div class="relative">
-                @php
-                    // fixed top-4.5 right-4
-                    $iconPosition = 'md:right-10 lg:right-69';
-                    $iconStyle =
-                        'size-8 z-10 text-white cursor-pointer hover:text-gray-300 hover:scale-110 transition-all duration-200';
-                @endphp
                 <x-heroicon-o-bars-3 class="{{ $iconPosition }} {{ $iconStyle }}" @click="open = true"
                     click="open = true" />
-
-                @include('layouts.nav')
             </div>
         </div>
     </header>
     <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black/40 z-40" @click="open = false"></div>
 
-    <main class="flex-1 max-w-4xl mx-auto px-4 py-12 w-full text-black">
+    <main class="flex-1 max-w-4xl mx-auto px-4 py-12 w-full text-black mt-15">
         {{-- 各ページのメインコンテンツがここに入る --}}
         @yield('content')
     </main>
