@@ -28,6 +28,13 @@
         @error('url')
             <div class="text-red-500">{{ $message }}</div>
         @enderror
+        <div class="flex items-center gap-3">
+            <label class="flex-1" for="url">メモ</label>
+            <input type="text" name="memo" class="{{ $inputClass }} flex-8" value="{{ old('memo', $site->memo) }}">
+        </div>
+        @error('memo')
+            <div class="text-red-500">{{ $message }}</div>
+        @enderror
         <button class="w-full bg-cyan-500 text-white py-2 rounded">更新</button>
     </form>
 @endsection
