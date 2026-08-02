@@ -5,6 +5,8 @@
 @section('title', 'ホーム')
 
 @php
+    $tableTh = 'border border-gray-300 px-4 py-2 text-left';
+    $tableTd = 'border border-gray-300 px-4 py-2';
     $formClass = 'max-w-sm mt-5 space-y-4';
     $inputClass = 'w-full border rounded px-3 py-2';
 @endphp
@@ -16,28 +18,28 @@
     <table class="w-full border-collapse border border-gray-300">
         <thead>
             <tr class="bg-gray-100">
-                <th class="border border-gray-300 px-4 py-2 text-left">Name</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">URL</th>
-                <th class="border border-gray-300 px-4 py-2 text-left">メモ</th>
-                <th class="border border-gray-300 px-4 py-2 text-left"></th>
+                <th class="{{ $tableTh }}">Name</th>
+                <th class="{{ $tableTh }}">URL</th>
+                <th class="{{ $tableTh }}">メモ</th>
+                <th class="{{ $tableTh }}"></th>
             </tr>
         </thead>
         <tbody>
             @forelse ($sites as $site)
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ $site->name }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="{{ $tableTd }}">{{ $site->name }}</td>
+                    <td class="{{ $tableTd }}">
                         <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
                             class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
                     </td>
-                    <td class="border border-gray-300 px-4 py-2"></td>
-                    <td class="border border-gray-300 px-4 py-2">
+                    <td class="{{ $tableTd }}">{{ $site->memo }}</td>
+                    <td class="{{ $tableTd }}">
                         <a href="{{ route('sites.edit', $site->id) }}" class="underline hover:no-underline">編集</a>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="2" class="border border-gray-300 px-4 py-2 text-gray-500">登録されたサイトがありません</td>
+                    <td colspan="2" class="{{ $tableTd }} text-gray-500">登録されたサイトがありません</td>
                 </tr>
             @endforelse
         </tbody>
