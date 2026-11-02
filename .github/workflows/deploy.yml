@@ -56,13 +56,13 @@ jobs:
             --exclude='storage/framework/views/*' \
             --exclude='storage/app/public/*' \
             ./ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}://home/u303929511/domains/test2.shagawa.work/
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/u985674127/domains/test2.shagawa.work/
 
       # Hostinger上でのセットアップ
       - name: Hostinger セットアップ
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-          cd /home/u303929511/domains/test2.shagawa.work
+          cd /home/u985674127/domains/test2.shagawa.work
           mkdir -p storage/framework/{views,cache/data,sessions,testing}
           mkdir -p storage/logs storage/app/public
           chmod -R 775 storage bootstrap/cache
