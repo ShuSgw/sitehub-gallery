@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Site;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,12 +17,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // 10ユーザーランダム生成
-        User::factory(10)->create();
+        // User::factory(10)->create();
 
         // php artisan db:seedで特定のユーザー作りたい場合
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        User::all()->each(function ($user) {
+            Site::factory()
+                ->count(3)
+                ->create(['user_id' => $user->id]);
+        });
     }
 }
