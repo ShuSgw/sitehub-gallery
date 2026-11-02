@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\User; //同じ名前空間なので書かなくても良い
+use App\Models\User;
+use App\Models\Category;
+//同じ名前空間なので書かなくても良い
 
 class Site extends Model
 {
@@ -15,6 +17,7 @@ class Site extends Model
     // 2. mass assignmentを許可するカラム（create/updateで安全に使える）
     protected $fillable = [
         'user_id',
+        'category_id',
         'name',
         'url',
         'memo'
@@ -24,5 +27,10 @@ class Site extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
