@@ -7,6 +7,7 @@ use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return view('home');
@@ -53,7 +54,13 @@ Route::controller(SiteController::class)->group(function () {
     });
 });
 
-
+// カテゴリ系
+Route::controller(CategoryController::class)->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/categories', 'index')
+            ->name('categories.index');
+    });
+});
 
 Route::controller(AdminAuthController::class)->group(function () {
     // アドミンログインページ
