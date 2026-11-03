@@ -15,35 +15,37 @@
 @section('content')
     <h2 class="text-3xl font-bold mb-8">{{ $greeting }}、{{ $user->name }}さん</h2>
     <h3 class="text-lg font-bold mb-6">登録済みサイト</h3>
-    <table class="w-full border-collapse border border-gray-300">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="{{ $tableTh }}">Name</th>
-                <th class="{{ $tableTh }}">URL</th>
-                <th class="{{ $tableTh }}">メモ</th>
-                <th class="{{ $tableTh }}"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($sites as $site)
-                <tr>
-                    <td class="{{ $tableTd }}">{{ $site->name }}</td>
-                    <td class="{{ $tableTd }}">
-                        <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
-                            class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
-                    </td>
-                    <td class="{{ $tableTd }}">{{ $site->memo }}</td>
-                    <td class="{{ $tableTd }}">
-                        <a href="{{ route('sites.edit', $site->id) }}" class="underline hover:no-underline">編集</a>
-                    </td>
+    <div class="overflow-x-auto border-gray-300 bg-white">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="{{ $tableTh }} whitespace-nowrap">Name</th>
+                    <th class="{{ $tableTh }}">URL</th>
+                    <th class="{{ $tableTh }}">メモ</th>
+                    <th class="{{ $tableTh }}"></th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="2" class="{{ $tableTd }} text-gray-500">登録されたサイトがありません</td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse ($sites as $site)
+                    <tr class="transition">
+                        <td class="{{ $tableTd }} whitespace-nowrap">{{ $site->name }}</td>
+                        <td class="{{ $tableTd }}">
+                            <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
+                                class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
+                        </td>
+                        <td class="{{ $tableTd }} wrap-break-word">{{ $site->memo }}</td>
+                        <td class="{{ $tableTd }} whitespace-nowrap w-px">
+                            <a href="{{ route('sites.edit', $site->id) }}" class="text-blue-500 hover:text-blue-700">編集</a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="{{ $tableTd }} text-gray-500">登録されたサイトがありません</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
     <form action="{{ route('sites.store') }}" method="POST" class="{{ $formClass }}">
         @csrf
         <input type="text" name="name" class="{{ $inputClass }}" placeholder="name">
