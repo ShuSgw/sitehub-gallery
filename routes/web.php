@@ -47,7 +47,7 @@ Route::controller(SiteController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::post('/sites', 'store')
             ->name('sites.store');
-        Route::get('/sites/{site}/edit', 'edit')
+        Route::get('/sites/edit/{id}', 'edit')
             ->name('sites.edit');
         Route::patch('/sites/{id}/', 'update')
             ->name('sites.update');
@@ -59,6 +59,15 @@ Route::controller(CategoryController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/categories', 'index')
             ->name('categories.index');
+        Route::post('/categories', 'store')
+            ->name('categories.store');
+        Route::delete('/categories/{id}', 'destroy')
+            ->name('categories.destroy');
+
+        Route::get('/categories/edit/{id}', 'edit')
+            ->name('categories.edit');
+        Route::patch('/categories/{id}', 'update')
+            ->name('categories.update');
     });
 });
 

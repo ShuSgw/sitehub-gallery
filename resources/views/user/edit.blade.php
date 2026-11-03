@@ -12,7 +12,7 @@
 
 @section('content')
     <div class="flex items-center justify-between mb-15">
-        <h2 class="text-3xl font-bold">詳細編集</h2>
+        <h2 class="text-3xl font-bold">サイト詳細 編集</h2>
         <a href="{{ route('user.dashboard') }}"
             class="group inline-flex items-center gap-1 py-1 px-5 bg-gray-100/50 border border-gray-200 rounded-2xl transition hover:bg-white hover:shadow-md active:scale-95">
             <x-heroicon-o-arrow-left class="size-4 transition group-hover:-translate-x-1" />ダッシュボードに戻る</a>
