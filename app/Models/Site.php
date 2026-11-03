@@ -23,7 +23,6 @@ class Site extends Model
         'memo'
     ];
 
-    // 3. Userモデルとのリレーション（親Userを取得するため）
     public function user()
     {
         return $this->belongsTo(User::class);
