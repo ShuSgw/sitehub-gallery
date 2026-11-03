@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-use App\Models\Site; // 同じ名前空間なので書かなくても良い
+// 同じ名前空間なので書かなくても良い
+use App\Models\Site;
+use App\Models\Category;
 
 class User extends Authenticatable
 {
@@ -31,9 +33,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // 4. Siteモデルとのリレーション
     public function sites()
     {
         return $this->hasMany(Site::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 }

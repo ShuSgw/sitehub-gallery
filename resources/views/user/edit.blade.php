@@ -9,8 +9,14 @@
     $inputClass = 'w-full border rounded px-3 py-2';
 @endphp
 
-{{-- contentセクション（複数行なので endsection を使う） --}}
+
 @section('content')
+    <div class="flex items-center justify-between mb-15">
+        <h2 class="text-3xl font-bold">詳細編集</h2>
+        <a href="{{ route('user.dashboard') }}"
+            class="group inline-flex items-center gap-1 py-1 px-5 bg-gray-100/50 border border-gray-200 rounded-2xl transition hover:bg-white hover:shadow-md active:scale-95">
+            <x-heroicon-o-arrow-left class="size-4 transition group-hover:-translate-x-1" />ダッシュボードに戻る</a>
+    </div>
     <form action="{{ route('sites.update', $site->id) }}" method="POST" class="{{ $formClass }}">
         @csrf
         @method('PATCH')
@@ -31,6 +37,10 @@
         <div class="flex items-center gap-3">
             <label class="flex-1" for="url">メモ</label>
             <input type="text" name="memo" class="{{ $inputClass }} flex-8" value="{{ old('memo', $site->memo) }}">
+        </div>
+        <div class="text-right w-full">
+            <a href="{{ route('categories.index', ['site' => $site->id]) }}"
+                class="text-blue-500 underline hover:no-underline">カテゴリ一覧</a>
         </div>
         @error('memo')
             <div class="text-red-500">{{ $message }}</div>
