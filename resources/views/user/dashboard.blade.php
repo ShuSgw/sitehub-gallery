@@ -9,29 +9,54 @@
     $tableTd = 'border border-gray-300 px-4 py-2';
     $formClass = 'max-w-sm mt-5 space-y-4';
     $inputClass = 'w-full border rounded px-3 py-2';
+    $chip = 'px-3 py-1 rounded-full border transition';
+    $chipOn = 'bg-cyan-500 border-cyan-500 text-white';
+    $chipOff = 'border-gray-300 hover:bg-gray-100';
+
+    $baseStyle = 'px-3 py-1 rounded-full border';
+    $activeStyle = 'bg-black border-black text-white';
+    $normalStyle = 'bg-white border-gray-300 text-gray-700 hover:bg-gray-100';
+    $currentCategoryId = request('category');
 @endphp
 
 {{-- contentセクション（複数行なので endsection を使う） --}}
 @section('content')
     <h2 class="text-3xl font-bold mb-8">{{ $greeting }}、{{ $user->name }}さん</h2>
     <h3 class="text-lg font-bold mb-6">登録済みサイト</h3>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+        @if ($currentCategoryId)
+            <a href="{{ route('user.dashboard') }}" class="{{ $baseStyle }} {{ $normalStyle }}">すべて</a>
+        @else
+            <a href="{{ route('user.dashboard') }}" class="{{ $baseStyle }} {{ $activeStyle }}">すべて</a>
+        @endif
+
+        @foreach ($categories as $category)
+            @if ($currentCategoryId == $category->id)
+                <a href="{{ route('user.dashboard', ['category' => $category->id]) }}"
+                    class="{{ $baseStyle }} {{ $activeStyle }}">{{ $category->name }}</a>
+            @else
+                <a href="{{ route('user.dashboard', ['category' => $category->id]) }}"
+                    class="{{ $baseStyle }} {{ $normalStyle }}">{{ $category->name }}</a>
+            @endif
+        @endforeach
+    </div>
+
     <div class="overflow-x-auto border-gray-300 bg-white">
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-gray-100">
-                    <th class="{{ $tableTh }} whitespace-nowrap">Name</th>
+                    <th class="{{ $tableTh }} whitespace-nowrap">サイト</th>
                     <th class="{{ $tableTh }}">URL</th>
                     <th class="{{ $tableTh }}">メモ</th>
-                    <th class="{{ $tableTh }}"></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($sites as $site)
                     <tr class="transition">
-                        <td class="{{ $tableTd }} whitespace-nowrap">{{ $site->name }}</td>
-                        <td class="{{ $tableTd }}">
+                        <td class="{{ $tableTd }} whitespace-nowrap">
                             <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
-                                class="text-blue-500 underline hover:no-underline break-all">{{ $site->url }}</a>
+                                class="text-blue-500 underline hover:no-underline">{{ $site->name }}</a>
                         </td>
                         <td class="{{ $tableTd }} wrap-break-word">{{ $site->memo }}</td>
                         <td class="{{ $tableTd }} whitespace-nowrap w-px">
@@ -54,6 +79,7 @@
         @enderror
         <input type="url" name="url" class="{{ $inputClass }}" placeholder="url">
         @error('url')
+            <div class="text-red-500">{{ $message }}</div>
         @enderror
         <button class="w-full bg-red-500 text-white py-2 rounded">保存</button>
     </form>
