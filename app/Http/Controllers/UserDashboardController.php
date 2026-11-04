@@ -27,6 +27,7 @@ class UserDashboardController extends Controller
 
 
         $sites = $user->sites()
+            ->with('category')
             ->when(
                 $request->category,
                 function ($query, $categoryId) {

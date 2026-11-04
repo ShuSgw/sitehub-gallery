@@ -18,7 +18,7 @@
             'size-8 z-10 text-white cursor-pointer hover:text-gray-300 hover:scale-110 transition-all duration-200';
     @endphp
     @include('layouts.nav')
-    <header class="bg-black py-5 fixed w-full">
+    <header class="bg-black py-5 fixed w-full z-30">
         <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
             <h1 class="text-lg font-semibold text-white">
                 <a href="{{ route('home') }}" class="hover:underline whitespace-nowrap mr-">サイト置き場</a>
