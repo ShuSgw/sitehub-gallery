@@ -29,7 +29,13 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
         // abort_if = 引数1じゃないならエラー
         abort_if($site->user_id !== Auth::id(), 403);
-        return view('user.edit', compact('site'));
+
+        $categories = Auth::user()->categories;
+
+        return view('user.edit', compact(
+            'site',
+            'categories'
+        ));
     }
     public function update(Request $request, int $id)
     {
@@ -40,6 +46,7 @@ class SiteController extends Controller
             'name' => $request->name,
             'url'  => $request->url,
             'memo'  => $request->memo,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('user.dashboard');
