@@ -20,7 +20,8 @@ class Site extends Model
         'category_id',
         'name',
         'url',
-        'memo'
+        'memo',
+        'og_image_url',
     ];
 
     public function user()
