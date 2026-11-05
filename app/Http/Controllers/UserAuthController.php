@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 use App\Models\User; //Userモデルを使う
 use Illuminate\Support\Facades\Hash; //パスワードをハッシュ化・検証するためのクラス
 use Illuminate\Support\Facades\Auth; // 認証（ログイン処理）を扱う
+use Illuminate\Auth\Events\Registered; // 登録完了時のイベントを扱う
 
 use App\Services\TelegramService;
 
@@ -31,13 +32,16 @@ class UserAuthController extends Controller
 
     public function storeRegister(RegisterRequest $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
         ]);
 
-        return redirect()->route('user.login');
+        event(new Registered($user));
+        Auth::login($user);
+
+        return redirect()->route('verification.notice');
     }
 
     public function showLogin()

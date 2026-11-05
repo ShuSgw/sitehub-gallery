@@ -9,6 +9,9 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     return view('home');
 })->name("home");
@@ -32,6 +35,20 @@ Route::controller(UserAuthController::class)->group(function () {
     });
 
     Route::post('/logout', 'logout')->name('logout');
+});
+
+// メール認証関連のルート
+Route::middleware('auth')->group(function () {
+    // 「メールを確認してください」の案内画面
+    Route::get('/email/verify', function () {
+        return view('user.verify-email');
+    })->name('verification.notice');
+
+    // メール内のリンクを押したときの処理
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('user.dashboard');
+    })->middleware('signed')->name('verification.verify');
 });
 
 // ユーザー管理画面
