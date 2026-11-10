@@ -48,8 +48,15 @@
                 {{-- サムネイル（仮のプレースホルダー）クリックでサイトを開く --}}
                 <div class="relative">
                     <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer" class="block">
-                        <div class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400">
-                            <x-heroicon-o-photo class="size-10" />
+                        <div
+                            class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden">
+                            {{-- OGP画像があれば表示、なければプレースホルダー --}}
+                            @if ($site->og_image_url)
+                                <img src="{{ $site->og_image_url }}" alt="{{ $site->name }}" loading="lazy"
+                                    class="w-full h-full object-cover">
+                            @else
+                                <x-heroicon-o-photo class="size-10" />
+                            @endif
                         </div>
                         <div class="absolute inset-0 bg-gray-900 opacity-25 transition duration-300 hover:opacity-10">
                         </div>
@@ -67,9 +74,14 @@
                         class="font-semibold text-lg truncate transition duration-500 ease-in-out hover:underline">{{ $site->name }}</a>
                     <p class="text-gray-500 text-sm mt-1 line-clamp-3 flex-1">{{ $site->memo }}</p>
                 </div>
-                <div class="px-6 py-4 flex justify-end">
+                <div class="px-6 py-4 flex justify-end gap-2">
+                    <form action="{{ route('sites.destroy', $site->id) }}" method="POST">
+                        @csrf @method('DELETE')
+                        <button
+                            class="cursor-pointer text-sm px-3 py-1 rounded border border-red-500 text-red-500 whitespace-nowrap transition hover:bg-red-500 hover:text-white active:scale-95">消去</button>
+                    </form>
                     <a href="{{ route('sites.edit', $site->id) }}"
-                        class="text-sm text-blue-500 hover:text-blue-700 whitespace-nowrap">編集</a>
+                        class="text-sm px-3 py-1 rounded border border-blue-500 text-blue-500 whitespace-nowrap transition hover:bg-blue-500 hover:text-white active:scale-95">編集</a>
                 </div>
             </div>
         @empty
@@ -86,6 +98,6 @@
         @error('url')
             <div class="text-red-500">{{ $message }}</div>
         @enderror
-        <button class="w-full bg-red-500 text-white py-2 rounded">保存</button>
+        <button class="cursor-pointer w-full bg-red-500 text-white py-2 rounded">保存</button>
     </form>
 @endsection

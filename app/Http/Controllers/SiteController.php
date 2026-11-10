@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Site;
+use App\Services\OgpService;
 
 use Illuminate\Http\Request;
 
@@ -16,10 +17,12 @@ class SiteController extends Controller
             'url'  => ['required', 'url'],
         ]);
 
+        $ogp = new OgpService();
         // ログインユーザーに紐づけて保存
         Auth::user()->sites()->create([
             'name' => $request->name,
             'url'  => $request->url,
+            'og_image_url' => $ogp->fetchImageUrl($request->url),
         ]);
 
         return redirect()->route('user.dashboard');
@@ -42,12 +45,29 @@ class SiteController extends Controller
         $site = Site::findOrFail($id);
         abort_if($site->user_id !== Auth::id(), 403);
 
-        $site->update([
+        $data = [
             'name' => $request->name,
             'url'  => $request->url,
             'memo'  => $request->memo,
             'category_id' => $request->category_id,
-        ]);
+        ];
+
+        // URLが変わったとき、または画像がまだないときだけ取得する
+        if ($request->url !== $site->url || !$site->og_image_url) {
+            $ogp = new OgpService();
+            $data['og_image_url'] = $ogp->fetchImageUrl($request->url);
+        }
+
+        $site->update($data);
+
+        return redirect()->route('user.dashboard');
+    }
+    public function destroy(int $id)
+    {
+        $site = Site::findOrFail($id);
+        abort_if($site->user_id !== Auth::id(), 403);
+
+        $site->delete();
 
         return redirect()->route('user.dashboard');
     }

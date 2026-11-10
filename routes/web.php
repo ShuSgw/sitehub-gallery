@@ -51,6 +51,8 @@ Route::controller(SiteController::class)->group(function () {
             ->name('sites.edit');
         Route::patch('/sites/{id}/', 'update')
             ->name('sites.update');
+        Route::delete('/sites/{id}', 'destroy')
+            ->name('sites.destroy');
     });
 });
 

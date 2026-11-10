@@ -17,6 +17,15 @@
             class="group inline-flex items-center gap-1 py-1 px-5 bg-gray-100/50 border border-gray-200 rounded-2xl transition hover:bg-white hover:shadow-md active:scale-95">
             <x-heroicon-o-arrow-left class="size-4 transition group-hover:-translate-x-1" />ダッシュボードに戻る</a>
     </div>
+    {{-- OGP画像（なければプレースホルダー） --}}
+    <div
+        class="max-w-sm aspect-video bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden rounded shadow-lg">
+        @if ($site->og_image_url)
+            <img src="{{ $site->og_image_url }}" alt="{{ $site->name }}" class="w-full h-full object-cover">
+        @else
+            <x-heroicon-o-photo class="size-10" />
+        @endif
+    </div>
     <form action="{{ route('sites.update', $site->id) }}" method="POST" class="{{ $formClass }}">
         @csrf
         @method('PATCH')
@@ -36,7 +45,8 @@
         @enderror
         <div class="flex items-center gap-3">
             <label class="w-20 shrink-0 whitespace-nowrap" for="memo">メモ</label>
-            <input type="text" name="memo" class="{{ $inputClass }} flex-8" value="{{ old('memo', $site->memo) }}">
+            <input type="text" name="memo" class="{{ $inputClass }} flex-8"
+                value="{{ old('memo', $site->memo) }}">
         </div>
         @error('memo')
             <div class="text-red-500">{{ $message }}</div>
