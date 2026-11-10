@@ -14,7 +14,7 @@ class SiteController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'url'  => ['required', 'url'],
+            'url'  => ['required', 'url:http,https'],
         ]);
 
         $ogp = new OgpService();
@@ -44,6 +44,11 @@ class SiteController extends Controller
     {
         $site = Site::findOrFail($id);
         abort_if($site->user_id !== Auth::id(), 403);
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'url'  => ['required', 'url:http,https'],
+        ]);
 
         $data = [
             'name' => $request->name,
