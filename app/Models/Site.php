@@ -22,6 +22,7 @@ class Site extends Model
         'url',
         'memo',
         'og_image_url',
+        'screenshot_path',
     ];
 
     public function user()
