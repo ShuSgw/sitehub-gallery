@@ -40,4 +40,9 @@ return [
         'chat_id' => env('TELEGRAM_CHAT_ID'),
     ],
 
+    'thumio' => [
+        'key_id' => env('THUMIO_KEY_ID'),
+        'secret' => env('THUMIO_SECRET'),
+    ],
+
 ];
