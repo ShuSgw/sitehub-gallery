@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Site;
 use App\Services\OgpService;
+use App\Services\ThumService;
 
 use Illuminate\Http\Request;
 
@@ -17,12 +18,14 @@ class SiteController extends Controller
             'url'  => ['required', 'url:http,https'],
         ]);
 
-        $ogp = new OgpService();
+        $images = $this->fetchImages($request->url);
+
         // ログインユーザーに紐づけて保存
         Auth::user()->sites()->create([
             'name' => $request->name,
             'url'  => $request->url,
-            'og_image_url' => $ogp->fetchImageUrl($request->url),
+            'og_image_url' => $images['og_image_url'],
+            'screenshot_path' => $images['screenshot_path'],
         ]);
 
         return redirect()->route('user.dashboard');
@@ -58,9 +61,10 @@ class SiteController extends Controller
         ];
 
         // URLが変わったとき、または画像がまだないときだけ取得する
-        if ($request->url !== $site->url || !$site->og_image_url) {
-            $ogp = new OgpService();
-            $data['og_image_url'] = $ogp->fetchImageUrl($request->url);
+        if ($request->url !== $site->url || !$site->screenshot_path) {
+            $images = $this->fetchImages($request->url);
+            $data['og_image_url'] = $images['og_image_url'];
+            $data['screenshot_path'] = $images['screenshot_path'];
         }
 
         $site->update($data);
@@ -75,5 +79,23 @@ class SiteController extends Controller
         $site->delete();
 
         return redirect()->route('user.dashboard');
+    }
+
+    private function fetchImages(string $url): array
+    {
+        $ogp = new OgpService();
+        $thum = new ThumService();
+
+        $screenshotPath = null;
+        // ogpのボットチェック走らせてダメじゃないならthumbのapi叩いてスクショ生成
+        if (! $ogp->isBotChallenge($url)) {
+            $screenshotPath = $thum->generateThumbnail($url);
+        }
+
+        return [
+            // og無いならnullが保存される
+            'og_image_url' => $ogp->fetchImageUrl($url),
+            'screenshot_path' => $screenshotPath,
+        ];
     }
 }
