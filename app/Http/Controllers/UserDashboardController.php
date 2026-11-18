@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\GreetingService;
+use App\Models\ScreenshotLog;
 
 class UserDashboardController extends Controller
 {
@@ -41,6 +42,14 @@ class UserDashboardController extends Controller
         $greetingService = new GreetingService();
         $greeting = $greetingService->get();
 
-        return view('user.dashboard', compact('user', 'sites', 'categories', 'greeting'));
+        $screenshotCount = ScreenshotLog::thisMonth()->count();
+
+        return view('user.dashboard', compact(
+            'user',
+            'sites',
+            'categories',
+            'greeting',
+            'screenshotCount'
+        ));
     }
 }

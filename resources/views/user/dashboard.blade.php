@@ -23,6 +23,7 @@
 @section('content')
     <h2 class="text-3xl font-bold mb-8">{{ $greeting }}、{{ $user->name }}さん</h2>
     <h3 class="text-lg font-bold mb-6">登録済みサイト</h3>
+    <p class="text-sm text-gray-500 mb-4">今月のスクリーンショット: {{ $screenshotCount }} 回</p>
 
     <div class="flex flex-wrap gap-2 mb-4">
         @if ($currentCategoryId)

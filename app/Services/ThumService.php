@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use App\Models\ScreenshotLog;
+use Illuminate\Support\Facades\Auth;
+
 class ThumService
 {
     // URL生成
@@ -27,6 +30,11 @@ class ThumService
     // スクリーンショットを取得して storage に保存し、保存先のパスを返す（失敗したら null）
     public function generateThumbnail(string $url): ?string
     {
+        $log = ScreenshotLog::create([
+            'user_id' => Auth::id(),
+            'url' => $url,
+        ]);
+
         try {
             // buildUrl() で署名付きURLを作り、thum.io から画像を取得する
             // スクリーンショットの生成には時間がかかることがあるので、30秒まで待つ
@@ -53,6 +61,8 @@ class ThumService
 
         // storage/app/public/ の下に、画像データ（$response->body()）を保存する
         Storage::disk('public')->put($path, $response->body());
+        // カウント
+        $log->update(['success' => true]);
 
         // DB に記録するため、保存先のパスを返す
         return $path;
