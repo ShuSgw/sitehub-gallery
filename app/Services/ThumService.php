@@ -24,7 +24,7 @@ class ThumService
         $hash = md5($secret . $expires . $url);
 
         // thumb.ioの指定のURL生成
-        return 'https://image.thum.io/get/auth/' . $keyId . '-' . $expires . '-' . $hash . '/' . $url;
+        return 'https://image.thum.io/get/auth/' . $keyId . '-' . $expires . '-' . $hash . '/noanimate/' . $url;
     }
 
     // スクリーンショットを取得して storage に保存し、保存先のパスを返す（失敗したら null）

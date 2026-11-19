@@ -51,8 +51,10 @@
                     <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer" class="block">
                         <div
                             class="aspect-video bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden">
-                            {{-- OGP画像があれば表示、なければプレースホルダー --}}
-                            @if ($site->og_image_url)
+                            @if ($site->screenshot_path)
+                                <img src="{{ asset('storage/' . $site->screenshot_path) }}" alt="{{ $site->name }}"
+                                    loading="lazy" class="w-full h-full object-cover">
+                            @elseif ($site->og_image_url)
                                 <img src="{{ $site->og_image_url }}" alt="{{ $site->name }}" loading="lazy"
                                     class="w-full h-full object-cover">
                             @else
