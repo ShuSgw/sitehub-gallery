@@ -86,15 +86,18 @@ class SiteController extends Controller
         $ogp = new OgpService();
         $thum = new ThumService();
 
+        // サイトへのアクセスは1回だけ（OGP画像とボット確認を、まとめて調べる）
+        $info = $ogp->inspect($url);
+
         $screenshotPath = null;
-        // ogpのボットチェック走らせてダメじゃないならthumbのapi叩いてスクショ生成
-        if (! $ogp->isBotChallenge($url)) {
+        // ボット確認が出るサイトでなければ、thum.io でスクショを作る
+        if (! $info['blocked']) {
             $screenshotPath = $thum->generateThumbnail($url);
         }
 
         return [
-            // og無いならnullが保存される
-            'og_image_url' => $ogp->fetchImageUrl($url),
+            // OGP画像が無ければ null が保存される
+            'og_image_url' => $info['og_image_url'],
             'screenshot_path' => $screenshotPath,
         ];
     }

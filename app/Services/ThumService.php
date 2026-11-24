@@ -37,8 +37,8 @@ class ThumService
 
         try {
             // buildUrl() で署名付きURLを作り、thum.io から画像を取得する
-            // スクリーンショットの生成には時間がかかることがあるので、30秒まで待つ
-            $response = Http::timeout(30)->get($this->buildUrl($url));
+            // スクリーンショットの生成には時間がかかることがあるので、20秒まで待つ
+            $response = Http::timeout(20)->get($this->buildUrl($url));
         } catch (Exception $e) {
             // 通信に失敗（タイムアウトなど）しても、エラーで止めず null を返す
             return null;
