@@ -15,6 +15,14 @@ jobs:
       # コード取得
       - name: チェックアウト
         uses: actions/checkout@v4
+        with:
+          # 過去のコミットと比べるため、履歴を全部取得する
+          fetch-depth: 0
+
+      # migration の事故防止（空の migration・既存 migration の書き換えを検出）
+      # 失敗したら、これ以降（ビルド・デプロイ）は実行されない
+      - name: migration チェック
+        run: bash scripts/check-migrations.sh ${{ github.event.before }}
 
       # Node環境セットアップ
       - name: Node.jsセットアップ
