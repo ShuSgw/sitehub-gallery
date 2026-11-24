@@ -67,5 +67,13 @@ class ThumService
         // DB に記録するため、保存先のパスを返す
         return $path;
     }
+
+    // スクショのファイルを、storage から消す（パスが無いときは何もしない）
+    public function deleteScreenshot(?string $path): void
+    {
+        if ($path) {
+            Storage::disk('public')->delete($path);
+        }
+    }
 }
 // 

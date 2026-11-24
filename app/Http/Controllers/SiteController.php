@@ -9,6 +9,7 @@ use App\Services\ThumService;
 
 use Illuminate\Http\Request;
 
+
 class SiteController extends Controller
 {
     public function store(Request $request)
@@ -54,6 +55,8 @@ class SiteController extends Controller
             'url'  => ['required', 'url:http,https'],
         ]);
 
+        $oldScreenshotPath = $site->screenshot_path;
+
         $data = [
             'name' => $request->name,
             'url'  => $request->url,
@@ -71,14 +74,23 @@ class SiteController extends Controller
 
         $site->update($data);
 
+        // スクショを取り直したときだけ、古い画像を消す
+        if (array_key_exists('screenshot_path', $data) && $data['screenshot_path'] !== $oldScreenshotPath) {
+            $thum = new ThumService();
+            $thum->deleteScreenshot($oldScreenshotPath);
+        }
+
+
         return redirect()->route('user.dashboard');
     }
     public function destroy(int $id)
     {
         $site = Site::findOrFail($id);
         abort_if($site->user_id !== Auth::id(), 403);
-
+        $thum = new ThumService();
         $site->delete();
+        // DB から消したあとで、画像ファイルも消す
+        $thum->deleteScreenshot($site->screenshot_path);
 
         return redirect()->route('user.dashboard');
     }
