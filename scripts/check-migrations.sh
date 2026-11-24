@@ -11,8 +11,10 @@ base="${1:-origin/main}"
 dir="database/migrations"
 failed=0
 
-# 1. 空の migration を探す（up() の中が // だけのもの）
-empty=$(grep -Pzl 'function up\(\): void\s*\{\s*Schema::table\([^{]*\{\s*//\s*\}\);\s*\}' $dir/*.php 2>/dev/null)
+# 1. 空の migration を探す
+#    - up() が丸ごと空、または // だけ
+#    - up() が Schema::table(...) だけで、その中が // だけ
+empty=$(grep -Pzl 'function up\(\): void\s*\{\s*(//\s*|Schema::table\([^{]*\{\s*//\s*\}\);\s*)?\}' $dir/*.php 2>/dev/null)
 if [ -n "$empty" ]; then
   echo "NG: up() の中身が空の migration があります。書いてからコミットしてください:"
   echo "$empty"
