@@ -23,6 +23,11 @@ class Site extends Model
         'memo',
         'og_image_url',
         'screenshot_path',
+        'screenshot_failed_at',
+    ];
+
+    protected $casts = [
+        'screenshot_failed_at' => 'datetime',
     ];
 
     public function user()

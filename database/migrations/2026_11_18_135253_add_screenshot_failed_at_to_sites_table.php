@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sites', function (Blueprint $table) {
-            //
+            $table->timestamp('screenshot_failed_at')->nullable()->after('screenshot_path');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('sites', function (Blueprint $table) {
-            //
+            $table->dropColumn('screenshot_failed_at');
         });
     }
 };

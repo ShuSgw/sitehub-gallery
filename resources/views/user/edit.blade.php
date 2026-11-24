@@ -20,17 +20,18 @@
     <div class="flex">
         <div class="flex-1">
             {{-- スクショ → OGP画像 → プレースホルダー の順に表示 --}}
-            <div
-                class="max-w-sm aspect-video bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden rounded shadow-lg">
+            <a href="{{ $site->url }}" target="_blank" rel="noopener noreferrer"
+                class="group max-w-sm aspect-video bg-gray-200 flex items-center justify-center text-gray-400 overflow-hidden rounded shadow-lg transition duration-300 hover:shadow-xl">
                 @if ($site->screenshot_path)
                     <img src="{{ asset('storage/' . $site->screenshot_path) }}" alt="{{ $site->name }}"
-                        class="w-full h-full object-cover">
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                 @elseif ($site->og_image_url)
-                    <img src="{{ $site->og_image_url }}" alt="{{ $site->name }}" class="w-full h-full object-cover">
+                    <img src="{{ $site->og_image_url }}" alt="{{ $site->name }}"
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
                 @else
                     <x-heroicon-o-photo class="size-10" />
                 @endif
-            </div>
+            </a>
             <form action="{{ route('sites.update', $site->id) }}" method="POST" class="{{ $formClass }}">
                 @csrf
                 @method('PATCH')
@@ -65,7 +66,7 @@
                         // $site->category_id: 初めて開いたときの、DBに保存されている値
                         $selectedId = old('category_id', $site->category_id);
                     @endphp
-                    <select name="category_id" id="category_id" class="{{ $inputClass }} flex-1">
+                    <select name="category_id" id="category_id" class="{{ $inputClass }} flex-1 bg-white text-gray-900 scheme-light">
                         <option value="" disabled @selected(!$selectedId)>未選択</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}" @selected($selectedId == $category->id)>
@@ -88,6 +89,8 @@
             <p class="text-sm text-gray-500 mt-4">スクリーンショット:
                 @if ($site->screenshot_path)
                     取得済み
+                @elseif ($site->screenshot_failed_at)
+                    失敗（{{ $site->screenshot_failed_at->timezone('Asia/Tokyo')->format('Y/m/d H:i') }}）
                 @else
                     未取得
                 @endif

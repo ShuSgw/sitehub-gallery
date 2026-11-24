@@ -26,6 +26,7 @@ class SiteController extends Controller
             'url'  => $request->url,
             'og_image_url' => $images['og_image_url'],
             'screenshot_path' => $images['screenshot_path'],
+            'screenshot_failed_at' => $images['screenshot_failed_at'],
         ]);
 
         return redirect()->route('user.dashboard');
@@ -60,11 +61,12 @@ class SiteController extends Controller
             'category_id' => $request->category_id,
         ];
 
-        // URLが変わったとき、または画像がまだないときだけ取得する
-        if ($request->url !== $site->url || !$site->screenshot_path) {
+        // URLが変わったとき、または、まだ一度も取得を試していないときだけ取得する
+        if ($request->url !== $site->url || (!$site->screenshot_path && !$site->screenshot_failed_at)) {
             $images = $this->fetchImages($request->url);
             $data['og_image_url'] = $images['og_image_url'];
             $data['screenshot_path'] = $images['screenshot_path'];
+            $data['screenshot_failed_at'] = $images['screenshot_failed_at'];
         }
 
         $site->update($data);
@@ -99,6 +101,7 @@ class SiteController extends Controller
             // OGP画像が無ければ null が保存される
             'og_image_url' => $info['og_image_url'],
             'screenshot_path' => $screenshotPath,
+            'screenshot_failed_at' => $screenshotPath ? null : now(),
         ];
     }
 }
