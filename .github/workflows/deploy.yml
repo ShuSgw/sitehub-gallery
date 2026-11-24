@@ -69,4 +69,5 @@ jobs:
           /opt/alt/php82/usr/bin/php /usr/local/bin/composer install --no-dev --optimize-autoloader --ignore-platform-reqs
           /opt/alt/php82/usr/bin/php artisan migrate --force
           /opt/alt/php82/usr/bin/php artisan config:cache
+          ln -sfn ../storage/app/public public/storage
           EOF
